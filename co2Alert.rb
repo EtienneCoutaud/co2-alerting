@@ -4,18 +4,6 @@ require 'net/https'
 require_relative 'lib/netatmo'
 
 
-HUE_BRIDGE='192.168.1.10/api/'
-NETAMO_URL='https://api.netatmo.com/api/gethomecoachsdata'
-
-NETATMO_CLIENT_ID='58a2139de6da23872e8b58d6'
-NETATMO_SECRET='5QM7TpbEfUEQCRc2fHEMUeoCCM01D'
-
-HUE_TOKEN='jQeRqSb4I0bMy3B3R3dM5bgMEIYxU5pgNN5j1CVF'
-
-
-
-
-
 puts get_token
 
 
