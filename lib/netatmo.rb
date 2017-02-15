@@ -5,10 +5,10 @@ def get_token
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   JSON.parse Net::HTTP.post_form(uri, {
     'grant_type' => 'password',
-    'client_id' => NETATMO_CLIENT_ID,
-    'client_secret' => NETATMO_SECRET,
-    'username' => 'e.coutaud@gmail.com',
-    'password' => 'Len9vetlen#'
+    'client_id' => ENV['NETATMO_CLIENT_ID'],
+    'client_secret' => ENV['NETATMO_SECRET'],
+    'username' => ENV['NETATMO_MAIL'],
+    'password' => ENV['NETATMO_PASSWORD']
   }).body
 end
 
@@ -20,12 +20,11 @@ def renew_token(refresh_token)
   JSON.parse Net::HTTP.post_form(uri, {
     'grant_type' => 'refresh_token',
     'refresh_token' => refresh_token,
-    'client_id' => config['client_id'],
-    'client_secret' => config['client_secret']}).body
+    'client_id' => ENV['NETATMO_CLIENT_ID'],
+    'client_secret' => ENV['NETATMO_SECRET']}).body
 end
 
 def get_device
-
   uri = URI.parse('https://api.netatmo.net/api/devicelist')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
