@@ -5,6 +5,7 @@ require_relative 'lib/netatmo'
 require_relative 'lib/hue'
 
 
+
 puts get_token
 
 
