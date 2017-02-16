@@ -1,27 +1,30 @@
-def gets_lights area
-	lights = RestClient.get HUE_BRIDGE + HUE_TOKEN + '/groups'
+def gets_lights_on
+	lights = RestClient.get ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights'
 	json_lights = JSON.parse(lights)
 
-	ids = []
-	for (key, value) in json_lights do 
-		if (value['name'] == area)
-			ids = value['lights']
-		end
-	end
-	ids
+	json_lights.delete_if{ |id, value| value['state']['on'] == false }
 end
 
+def select_light_hue hue_on
+	Hash[hue_on.to_a.sample(1)]
+end
 
-def switch_light state, color
-	i = 0
-	id_chambre = gets_lights 'Chambre'
+def color_selected_light light
+	key, value = light.first
+	RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + key.to_s + '/state', '{"on": true, "sat":254, "bri":50,"hue": 400, "alert": "select"}'
+end
 
-	while i < 65535  do
-   		puts '>> i value ' + i.to_s
-   		for id in id_chambre
-			RestClient.put HUE_BRIDGE + HUE_TOKEN + '/lights/' + id.to_s + '/state', '{"on":' + state.to_s + ', "sat":254, "bri":150,"hue":' + i.to_s + '}'
-			sleep 1
-		end
-		i += 5000
-	end
+def save_hue_value light
+	key, value = light.first
+	ENV['HUE_ID'] = key
+	ENV['SAT'] = value['state']['sat'].to_s
+	ENV['BRI'] = value['state']['bri'].to_s
+	ENV['HUE'] = value['state']['hue'].to_s
+end
+
+def reset_hue_light
+	value = {"on" => true, "sat" => ENV['SAT'], "bri" => ENV['BRI'],"hue" => ENV['HUE'], "alert" => "none"}
+	puts value
+	response =RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + ENV['HUE_ID'] + '/state', value
+	puts response
 end
