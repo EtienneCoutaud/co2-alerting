@@ -10,7 +10,8 @@ token = get_token
 refresh_token = renew_token(token['refresh_token'])
 data = get_data(refresh_token['access_token'])
 
-co2_value = data['body']['devices'][0]['dashboard_data']['CO2'].to_i
+#co2_value = data['body']['devices'][0]['dashboard_data']['CO2'].to_i
+co2_value = 1001
 
 if co2_value > 1000
 

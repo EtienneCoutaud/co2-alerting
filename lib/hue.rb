@@ -11,7 +11,7 @@ end
 
 def color_selected_light light
 	key, value = light.first
-	RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + key.to_s + '/state', '{"on": true, "sat":254, "bri":50,"hue": 400, "alert": "select"}'
+	RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + key.to_s + '/state', '{"on": true, "sat":254, "bri":50,"hue": 400, "alert": "lselect"}'
 end
 
 def save_hue_value light
@@ -20,11 +20,13 @@ def save_hue_value light
 	ENV['SAT'] = value['state']['sat'].to_s
 	ENV['BRI'] = value['state']['bri'].to_s
 	ENV['HUE'] = value['state']['hue'].to_s
+	ENV['CM']  = value['state']['colormode'].to_s
 end
 
 def reset_hue_light
-	value = {"on" => true, "sat" => ENV['SAT'], "bri" => ENV['BRI'],"hue" => ENV['HUE'], "alert" => "none"}
-	puts value
-	response =RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + ENV['HUE_ID'] + '/state', value
+	sat = 
+	value = {"on" => true, "sat" => ENV['SAT'].to_i, "bri" => ENV['BRI'].to_i, "hue" => ENV['HUE'].to_i, "alert" => "none", "colormode" => ENV['CM']}
+	puts JSON.generate(value)
+	response =RestClient.put ENV['HUE_BRIDGE'] + ENV['HUE_TOKEN'] + '/lights/' + ENV['HUE_ID'] + '/state', JSON.generate(value)
 	puts response
 end
