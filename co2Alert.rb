@@ -23,7 +23,7 @@ if noise > 40
 
 	else
 		state = JSON.parse(File.read('state.json'))
-		if (state['alert'])
+		if (co2_value < 500 && state['alert'])
 			color_selected_light 'green'
 			sleep 20
 			puts 'reset hue:'
