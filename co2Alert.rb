@@ -23,6 +23,7 @@ if noise > 40
 		color_selected_light 'red'
 
 	else
+		state = JSON.parse(File.read('/opt/co2-alerting/state.json'))
 		if (co2_value < 500 && state['alert'])
 			color_selected_light 'green'
 			sleep 20
