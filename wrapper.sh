@@ -1,4 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
-source config
-ruby co2Alert.rb
+ruby /opt/co2-alerting/co2Alert.rb

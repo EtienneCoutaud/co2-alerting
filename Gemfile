@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'hue'
+gem 'rest-client'
+gem 'net'
+gem 'json'
